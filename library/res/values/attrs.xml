@@ -4,12 +4,17 @@
     <attr name="toDegrees" format="float|reference" />
     <attr name="childSize" format="dimension|reference" />
     <attr name="parentSize" format="dimension|reference" />
-
+    <attr name="childPadding" format="integer|reference" />
+	<attr name="hideElements" format="boolean|reference" />
+	<attr name="animateHint" format="boolean|reference" />
+	
 	<declare-styleable name="ArcLayout">
         <attr name="fromDegrees"/>
         <attr name="toDegrees"/>
         <attr name="childSize"/>
         <attr name="parentSize"/>
+        <attr name="childPadding"/>
+        <attr name="hideElements"/>
 	</declare-styleable>
 
     <declare-styleable name="ArcMenu">
@@ -17,6 +22,7 @@
         <attr name="toDegrees"/>
         <attr name="childSize"/>
         <attr name="parentSize"/>
+        <attr name="animateHint"/>
     </declare-styleable>
 	
 	<declare-styleable name="RayLayout">

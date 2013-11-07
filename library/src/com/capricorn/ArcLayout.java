@@ -20,16 +20,20 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.Interpolator;
+import android.view.animation.LayoutAnimationController;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.RotateAnimation;
-import android.view.animation.Animation.AnimationListener;
+
 
 /**
  * A Layout that arranges its children around its center. The arc can be set by
@@ -46,22 +50,26 @@ public class ArcLayout extends ViewGroup {
      */
     private int mChildSize;
 
-    private int mChildPadding = 5;
+    private int mChildPadding;
 
     private int mParentSize;
 
     private int mLayoutPadding = 10;
 
-    public static final float DEFAULT_FROM_DEGREES = 270.0f;
+    public static final float DEFAULT_FROM_DEGREES = 180.0f;
 
     public static final float DEFAULT_TO_DEGREES = 360.0f;
 
+    public static final int DEFAULT_CHILD_PADDING = 60;
+    
+    public static final boolean DEFAULT_HIDE_ELEMENTS = false;
+    
     private float mFromDegrees = DEFAULT_FROM_DEGREES;
 
     private float mToDegrees = DEFAULT_TO_DEGREES;
 
-    private static final int MIN_RADIUS = 100;
-
+    private boolean mHideElements = DEFAULT_HIDE_ELEMENTS;
+    
     /* the distance between the layout's center and any child's center */
     private int mRadius;
 
@@ -80,6 +88,8 @@ public class ArcLayout extends ViewGroup {
             mToDegrees = a.getFloat(R.styleable.ArcLayout_toDegrees, DEFAULT_TO_DEGREES);
             mChildSize = Math.max(a.getDimensionPixelSize(R.styleable.ArcLayout_childSize, 0), 0);
             mParentSize = Math.max(a.getDimensionPixelSize(R.styleable.ArcLayout_parentSize, 0), 0);
+            mChildPadding = a.getInteger(R.styleable.ArcLayout_childPadding, DEFAULT_CHILD_PADDING);
+            mHideElements = a.getBoolean(R.styleable.ArcLayout_hideElements, DEFAULT_HIDE_ELEMENTS);
 
             a.recycle();
         }
@@ -293,6 +303,13 @@ public class ArcLayout extends ViewGroup {
 
         requestLayout();
     }
+    
+    public void setChildsInvisible(){
+    	 final int count = getChildCount();
+         for (int i = 0; i < count; i++) {
+        	 getChildAt(i).setVisibility(View.GONE);
+         }
+    }
 
     public int getParentSize() {
         return mParentSize;
@@ -323,6 +340,8 @@ public class ArcLayout extends ViewGroup {
     private void onAllAnimationsEnd() {
         final int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
+        	if(mHideElements)
+        		getChildAt(i).setVisibility((mExpanded)?View.VISIBLE:View.GONE);
             getChildAt(i).clearAnimation();
         }
 

@@ -19,17 +19,18 @@ package com.capricorn;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -43,8 +44,10 @@ import android.widget.RelativeLayout;
 public class ArcMenu extends RelativeLayout {
     private ArcLayout mArcLayout;
 
+    private static boolean DEFAULT_ANIMATE_HINT = true;
+    
     private ImageView mHintView;
-
+    private boolean mAnimateHint = DEFAULT_ANIMATE_HINT;
     private ViewGroup mControlLayout;
 
     public ArcMenu(Context context) {
@@ -71,7 +74,8 @@ public class ArcMenu extends RelativeLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mHintView.startAnimation(createHintSwitchAnimation(mArcLayout.isExpanded()));
+                	if(mAnimateHint)
+                		mHintView.startAnimation(createHintSwitchAnimation(mArcLayout.isExpanded()));
                     mArcLayout.switchState(true);
                 }
 
@@ -100,8 +104,13 @@ public class ArcMenu extends RelativeLayout {
             LayoutParams params = (LayoutParams) mControlLayout.getLayoutParams();
             params.width = params.height = newParentSize;
             mControlLayout.setLayoutParams(params);
-
+            
+            TypedArray b = getContext().obtainStyledAttributes(attrs, R.styleable.ArcMenu, 0, 0);
+            
+            mAnimateHint = b.getBoolean(R.styleable.ArcMenu_animateHint, DEFAULT_ANIMATE_HINT);
+            Log.v("smoost", "animatehint is " + mAnimateHint);
             a.recycle();
+            b.recycle();
         }
     }
 
@@ -149,7 +158,8 @@ public class ArcMenu extends RelativeLayout {
                 }
 
                 mArcLayout.invalidate();
-                mHintView.startAnimation(createHintSwitchAnimation(true));
+                if(mAnimateHint)
+            		mHintView.startAnimation(createHintSwitchAnimation(true));
 
                 if (listener != null) {
                     listener.onClick(viewClicked);

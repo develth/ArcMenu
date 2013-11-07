@@ -12,7 +12,10 @@
         app:childSize="44px"
         app:parentSize="44px"
         custom:fromDegrees="270.0"
-        custom:toDegrees="360.0" />
+        custom:toDegrees="360.0"
+        custom:childPadding="10"
+        custom:hideElements="false"
+         />
 
     <RelativeLayout
         android:id="@+id/control_layout"
