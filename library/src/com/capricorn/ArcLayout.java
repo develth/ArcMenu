@@ -20,9 +20,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -346,6 +344,10 @@ public class ArcLayout extends ViewGroup {
         }
 
         requestLayout();
+    }
+    
+    public void setHideElements(boolean hideElements){
+    	this.mHideElements = hideElements;
     }
 
 }

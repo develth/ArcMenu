@@ -23,6 +23,7 @@
         <attr name="childSize"/>
         <attr name="parentSize"/>
         <attr name="animateHint"/>
+        <attr name="hideElements"/>
     </declare-styleable>
 	
 	<declare-styleable name="RayLayout">

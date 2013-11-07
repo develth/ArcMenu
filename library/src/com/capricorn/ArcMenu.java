@@ -19,7 +19,6 @@ package com.capricorn;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -108,7 +107,7 @@ public class ArcMenu extends RelativeLayout {
             TypedArray b = getContext().obtainStyledAttributes(attrs, R.styleable.ArcMenu, 0, 0);
             
             mAnimateHint = b.getBoolean(R.styleable.ArcMenu_animateHint, DEFAULT_ANIMATE_HINT);
-            Log.v("smoost", "animatehint is " + mAnimateHint);
+            mArcLayout.setHideElements(b.getBoolean(R.styleable.ArcMenu_hideElements, ArcLayout.DEFAULT_HIDE_ELEMENTS));
             a.recycle();
             b.recycle();
         }

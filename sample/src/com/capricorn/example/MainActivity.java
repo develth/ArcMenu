@@ -43,9 +43,11 @@ public class MainActivity extends Activity {
 
 		ArcMenu arcMenu = (ArcMenu) findViewById(R.id.arc_menu);
         ArcMenu arcMenu2 = (ArcMenu) findViewById(R.id.arc_menu_2);
+        ArcMenu arcMenu3 = (ArcMenu) findViewById(R.id.arc_menu_3);
 
         initArcMenu(arcMenu, ITEM_DRAWABLES);
         initArcMenu(arcMenu2, ITEM_DRAWABLES);
+        initArcMenu(arcMenu3, ITEM_DRAWABLES, true);
 
 		RayMenu rayMenu = (RayMenu) findViewById(R.id.ray_menu);
         final int itemCount = ITEM_DRAWABLES.length;
@@ -63,13 +65,17 @@ public class MainActivity extends Activity {
 			});// Add a menu item
 		}
 	}
-
-    private void initArcMenu(ArcMenu menu, int[] itemDrawables) {
+	
+	private void initArcMenu(ArcMenu menu, int[] itemDrawables) {
+		initArcMenu(menu, itemDrawables, false);
+	}
+    private void initArcMenu(ArcMenu menu, int[] itemDrawables, boolean hideElements) {
         final int itemCount = itemDrawables.length;
         for (int i = 0; i < itemCount; i++) {
             ImageView item = new ImageView(this);
             item.setImageResource(itemDrawables[i]);
-
+            if(hideElements)
+            	item.setVisibility(View.GONE);
             final int position = i;
             menu.addItem(item, new OnClickListener() {
 
